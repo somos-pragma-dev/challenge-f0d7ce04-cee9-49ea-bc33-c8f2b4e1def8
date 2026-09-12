@@ -1,7 +1,6 @@
 package com.example.offlinefirst.di
 
 import android.content.Context
-import com.example.offlinefirst.BuildConfig
 import com.example.offlinefirst.data.remote.api.OfflineFirstApiService
 import dagger.Module
 import dagger.Provides
@@ -32,7 +31,7 @@ object NetworkModule {
         ignoreUnknownKeys = true
         isLenient = true
         encodeDefaults = true
-        prettyPrint = BuildConfig.DEBUG
+        prettyPrint = true
         coerceInputValues = true
     }
 
@@ -40,11 +39,7 @@ object NetworkModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
+            level = HttpLoggingInterceptor.Level.BODY
         }
 
     @Provides
@@ -63,7 +58,6 @@ object NetworkModule {
                 val newRequest = originalRequest.newBuilder()
                     .header("Content-Type", "application/json")
                     .header("Accept", "application/json")
-                    .header("X-App-Version", BuildConfig.VERSION_NAME)
                     .header("X-Platform", "Android")
                     .build()
                 chain.proceed(newRequest)

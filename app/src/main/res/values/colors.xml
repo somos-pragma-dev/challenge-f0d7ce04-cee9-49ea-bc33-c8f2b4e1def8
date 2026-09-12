@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta de colores primarios - Tono azul profundo que representa confianza y tecnología -->
+    <color name="md_theme_light_primary">#006590</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#C7E7FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001E2F</color>
+
+    <!-- Paleta de colores secundarios - Tono verde azulado para acciones complementarias -->
+    <color name="md_theme_light_secondary">#4F606E</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#D3E4F5</color>
+    <color name="md_theme_light_onSecondaryContainer">#0C1D29</color>
+
+    <!-- Paleta de colores terciarios - Tono magenta para acentos y elementos destacados -->
+    <color name="md_theme_light_tertiary">#63597C</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#E9DDFF</color>
+    <color name="md_theme_light_onTertiaryContainer">#1F1635</color>
+
+    <!-- Colores de error - Rojos estándar de Material Design 3 -->
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_errorContainer">#FFDAD6</color>
+    <color name="md_theme_light_onErrorContainer">#410002</color>
+
+    <!-- Colores de fondo y superficie - Tonos neutros claros -->
+    <color name="md_theme_light_background">#FDFBFF</color>
+    <color name="md_theme_light_onBackground">#1A1C1E</color>
+    <color name="md_theme_light_surface">#FDFBFF</color>
+    <color name="md_theme_light_onSurface">#1A1C1E</color>
+    <color name="md_theme_light_surfaceVariant">#DEE3EB</color>
+    <color name="md_theme_light_onSurfaceVariant">#41484D</color>
+
+    <!-- Colores de contorno y separación -->
+    <color name="md_theme_light_outline">#71787E</color>
+    <color name="md_theme_light_outlineVariant">#C1C7CE</color>
+    <color name="md_theme_light_inverseSurface">#2F3033</color>
+    <color name="md_theme_light_inverseOnSurface">#F1F0F4</color>
+    <color name="md_theme_light_inversePrimary">#86CEE8</color>
+
+    <!-- Colores específicos para estados de sincronización -->
+    <color name="sync_success">#2E7D32</color>
+    <color name="sync_warning">#F57C00</color>
+    <color name="sync_error">#D32F2F</color>
+    <color name="sync_pending">#757575</color>
+
+    <!-- Colores para indicadores de estado de conexión -->
+    <color name="connection_online">#4CAF50</color>
+    <color name="connection_offline">#F44336</color>
+
+    <!-- Paleta de colores para tema oscuro - Inversiones de la paleta clara -->
+    <color name="md_theme_dark_primary">#86CEE8</color>
+    <color name="md_theme_dark_onPrimary">#00344D</color>
+    <color name="md_theme_dark_primaryContainer">#004C6B</color>
+    <color name="md_theme_dark_onPrimaryContainer">#C7E7FF</color>
+
+    <color name="md_theme_dark_secondary">#B6C8D9</color>
+    <color name="md_theme_dark_onSecondary">#21323F</color>
+    <color name="md_theme_dark_secondaryContainer">#384956</color>
+    <color name="md_theme_dark_onSecondaryContainer">#D3E4F5</color>
+
+    <color name="md_theme_dark_tertiary">#CDC1E9</color>
+    <color name="md_theme_dark_onTertiary">#342B4B</color>
+    <color name="md_theme_dark_tertiaryContainer">#4B4263</color>
+    <color name="md_theme_dark_onTertiaryContainer">#E9DDFF</color>
+
+    <color name="md_theme_dark_error">#FFB4AB</color>
+    <color name="md_theme_dark_onError">#690005</color>
+    <color name="md_theme_dark_errorContainer">#93000A</color>
+    <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
+
+    <color name="md_theme_dark_background">#1A1C1E</color>
+    <color name="md_theme_dark_onBackground">#E2E2E6</color>
+    <color name="md_theme_dark_surface">#1A1C1E</color>
+    <color name="md_theme_dark_onSurface">#E2E2E6</color>
+    <color name="md_theme_dark_surfaceVariant">#41484D</color>
+    <color name="md_theme_dark_onSurfaceVariant">#C1C7CE</color>
+
+    <color name="md_theme_dark_outline">#8B9198</color>
+    <color name="md_theme_dark_outlineVariant">#41484D</color>
+    <color name="md_theme_dark_inverseSurface">#E2E2E6</color>
+    <color name="md_theme_dark_inverseOnSurface">#2F3033</color>
+    <color name="md_theme_dark_inversePrimary">#006590</color>
+
+    <!-- Colores de gradiente para elementos decorativos en la interfaz -->
+    <color name="gradient_start">#006590</color>
+    <color name="gradient_end">#004C6B</color>
+
+    <!-- Colores semánticos para el dominio de la aplicación -->
+    <color name="product_available">#4CAF50</color>
+    <color name="product_out_of_stock">#F44336</color>
+    <color name="product_low_stock">#FF9800</color>
+
+    <color name="purchase_completed">#4CAF50</color>
+    <color name="purchase_pending">#FF9800</color>
+    <color name="purchase_cancelled">#F44336</color>
+    <color name="purchase_shipped">#2196F3</color>
+
+    <!-- Colores para categorías de productos -->
+    <color name="category_electronics">#2196F3</color>
+    <color name="category_clothing">#9C27B0</color>
+    <color name="category_books">#795548</color>
+    <color name="category_home">#4CAF50</color>
+    <color name="category_sports">#FF5722</color>
+    <color name="category_food">#FFC107</color>
+    <color name="category_other">#607D8B</color>
+
+    <!-- Colores para fondos de tarjetas y elevación -->
+    <color name="card_background_light">#FFFFFF</color>
+    <color name="card_background_dark">#2D2D2D</color>
+    <color name="elevation_overlay">#1A000000</color>
+
+    <!-- Colores para indicadores de carga y progreso -->
+    <color name="loading_indicator">#006590</color>
+    <color name="progress_track">#E0E0E0</color>
+    <color name="progress_track_dark">#424242</color>
+</resources>// === ARCHIVO: app/src/main/res/values/themes.xml ===
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Tema principal de la aplicación basado en Material Design 3.
+        Este archivo define los colores, tipografía y estilos para toda la aplicación.
+        Los colores se sincronizan con la paleta definida en colors.xml.
+    -->
+    <style name="Theme.OfflineFirst" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Colores primarios del tema -->
+        <item name="android:colorPrimary">@color/md_theme_light_primary</item>
+        <item name="android:colorPrimaryDark">@color/md_theme_light_primaryContainer</item>
+        <item name="android:colorAccent">@color/md_theme_light_secondary</item>
+
+        <!-- Colores de fondo y superficie -->
+        <item name="android:windowBackground">@color/md_theme_light_background</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+        <item name="android:navigationBarColor">@color/md_theme_light_surface</item>
+
+        <!-- Colores de texto principales -->
+        <item name="android:textColorPrimary">@color/md_theme_light_onBackground</item>
+        <item name="android:textColorSecondary">@color/md_theme_light_onSurfaceVariant</item>
+
+        <!-- Configuración de la barra de estado -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!--
+        Definición de estilos de texto usando la escala tipográfica de Material Design 3.
+        Estos estilos se aplican a través de android:textAppearance en los layouts XML.
+    -->
+    <style name="TextAppearance.OfflineFirst.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">57sp</item>
+        <item name="android:letterSpacing">-0.0025</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">45sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:letterSpacing">0.0025</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.0015</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.001</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.005</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.0025</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.004</item>
+        <item name="android:textColor">@color/md_theme_light_onSurfaceVariant</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.001</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.005</item>
+        <item name="android:textColor">@color/md_theme_light_onBackground</item>
+    </style>
+
+    <style name="TextAppearance.OfflineFirst.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.005</item>
+        <item name="android:textColor">@color/md_theme_light_onSurfaceVariant</item>
+    </style>
+
+    <!-- Estilos para componentes de tarjeta con elevación -->
+    <style name="Widget.OfflineFirst.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/card_background_light</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+    <!-- Estilos para botones según la especificación de Material Design 3 -->
+    <style name="Widget.OfflineFirst.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/md_theme_light_onPrimary</item>
+        <item name="backgroundTint">@color/md_theme_light_primary</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="Widget.OfflineFirst.Button.Secondary" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textColor">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="backgroundTint">@color/md_theme_light_secondaryContainer</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="Widget.OfflineFirst.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/md_theme_light_primary</item>
+    </style>
+
+    <!-- Estilos para campos de texto -->
+    <style name="Widget.OfflineFirst.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/md_theme_light_primary</item>
+        <item name="hintTextColor">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+    </style>
+
+    <!-- Estilos para la barra de herramientas -->
+    <style name="Widget.OfflineFirst.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/md_theme_light_surface</item>
+        <item name="titleTextColor">@color/md_theme_light_onSurface</item>
+    </style>
+
+    <!-- Estilos para la barra de navegación inferior -->
+    <style name="Widget.OfflineFirst.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/md_theme_light_surface</item>
+        <item name="itemIconTint">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="itemTextColor">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <!-- Estilos para indicadores de estado de sincronización -->
+    <style name="Widget.OfflineFirst.SyncStatusBanner">
+        <item name="android:background">@color/md_theme_light_secondaryContainer</item>
+        <item name="android:textColor">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Estilos para chips de categorías -->
+    <style name="Widget.OfflineFirst.Chip.Category" parent="Widget.Material3.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">@color/md_theme_light_surfaceVariant</item>
+        <item name="android:textColor">@color/md_theme_light_onSurfaceVariant</item>
+    </style>
+
+    <!-- Estilos para indicadores de estado de conexión -->
+    <style name="Widget.OfflineFirst.ConnectionIndicator">
+        <item name="android:padding">4dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- Estilos para diálogos -->
+    <style name="ThemeOverlay.OfflineFirst.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="dialogCornerRadius">28dp</item>
+    </style>
+
+    <!-- Estilos para Snackbar -->
+    <style name="ThemeOverlay.OfflineFirst.Snackbar" parent="ThemeOverlay.Material3.Snackbar">
+        <item name="android:textColor">@color/md_theme_light_onPrimary</item>
+        <item name="backgroundTint">@color/md_theme_light_inverseSurface</item>
+    </style>
+
+    <!-- Definición de animaciones de transición de actividades -->
+    <style name="Animation.OfflineFirst.ActivityTransition">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@android:anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@android:anim/fade_out</item>
+    </style>
+</resources>

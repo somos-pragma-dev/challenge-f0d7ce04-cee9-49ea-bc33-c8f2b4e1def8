@@ -1,13 +1,11 @@
 package com.example.offlinefirst.di
 
-import com.example.offlinefirst.data.repository.ContentRepositoryImpl
-import com.example.offlinefirst.data.repository.PreferencesRepositoryImpl
-import com.example.offlinefirst.data.repository.SyncRepositoryImpl
-import com.example.offlinefirst.data.repository.UserRepositoryImpl
-import com.example.offlinefirst.domain.repository.ContentRepository
-import com.example.offlinefirst.domain.repository.PreferencesRepository
-import com.example.offlinefirst.domain.repository.SyncRepository
-import com.example.offlinefirst.domain.repository.UserRepository
+import com.example.offlinefirst.data.repository.ProductRepositoryImpl
+import com.example.offlinefirst.data.repository.PurchaseRepositoryImpl
+import com.example.offlinefirst.data.repository.UserPreferencesRepositoryImpl
+import com.example.offlinefirst.domain.repository.ProductRepository
+import com.example.offlinefirst.domain.repository.PurchaseRepository
+import com.example.offlinefirst.domain.repository.UserPreferencesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,28 +15,22 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-    
+
     @Binds
     @Singleton
-    abstract fun bindUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
-    ): UserRepository
-    
+    abstract fun bindProductRepository(
+        productRepositoryImpl: ProductRepositoryImpl
+    ): ProductRepository
+
     @Binds
     @Singleton
-    abstract fun bindPreferencesRepository(
-        preferencesRepositoryImpl: PreferencesRepositoryImpl
-    ): PreferencesRepository
-    
+    abstract fun bindPurchaseRepository(
+        purchaseRepositoryImpl: PurchaseRepositoryImpl
+    ): PurchaseRepository
+
     @Binds
     @Singleton
-    abstract fun bindContentRepository(
-        contentRepositoryImpl: ContentRepositoryImpl
-    ): ContentRepository
-    
-    @Binds
-    @Singleton
-    abstract fun bindSyncRepository(
-        syncRepositoryImpl: SyncRepositoryImpl
-    ): SyncRepository
+    abstract fun bindUserPreferencesRepository(
+        userPreferencesRepositoryImpl: UserPreferencesRepositoryImpl
+    ): UserPreferencesRepository
 }

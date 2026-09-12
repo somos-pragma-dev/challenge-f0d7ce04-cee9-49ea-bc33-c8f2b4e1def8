@@ -1,0 +1,38 @@
+package com.example.offlinefirst.util
+
+sealed class Resource<out T> {
+    data class Success<T>(val data: T) : Resource<T>()
+    data class Error(
+        val message: String,
+        val throwable: Throwable? = null
+    ) : Resource<Nothing>()
+    data object Loading : Resource<Nothing>()
+    
+    fun getOrNull(): T? = (this as? Success)?.data
+    fun getOrDefault(default: @UnsafeVariance T): T = getOrNull() ?: default
+    
+    fun <R> map(transform: (T) -> R): Resource<R> = when (this) {
+        is Success -> Success(transform(data))
+        is Error -> Error(message, throwable)
+        is Loading -> Loading
+    }
+    
+    inline fun onSuccess(action: (T) -> Unit): Resource<T> {
+        if (this is Success) action(data)
+        return this
+    }
+    
+    inline fun onError(action: (String, Throwable?) -> Unit): Resource<T> {
+        if (this is Error) action(message, throwable)
+        return this
+    }
+    
+    inline fun onLoading(action: () -> Unit): Resource<T> {
+        if (this is Loading) action()
+        return this
+    }
+}
+
+fun <T> Loading(): Resource<T> = Resource.Loading
+fun <T> Success(data: T): Resource<T> = Resource.Success(data)
+fun <T> Error(message: String, throwable: Throwable? = null): Resource<T> = Resource.Error(message, throwable)

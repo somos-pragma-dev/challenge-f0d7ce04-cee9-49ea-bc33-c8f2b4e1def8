@@ -1,0 +1,249 @@
+package com.example.offlinefirst.data.repository
+
+import com.example.offlinefirst.data.local.dao.ProductDao
+import com.example.offlinefirst.data.local.entity.ProductEntity
+import com.example.offlinefirst.data.remote.api.OfflineFirstApiService
+import com.example.offlinefirst.data.remote.dto.ProductDto
+import com.example.offlinefirst.data.sync.ConflictResolver
+import com.example.offlinefirst.domain.model.Product
+import com.example.offlinefirst.domain.model.ProductCategory
+import com.example.offlinefirst.domain.repository.ProductRepository
+import com.example.offlinefirst.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import java.math.BigDecimal
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class ProductRepositoryImpl @Inject constructor(
+    private val productDao: ProductDao,
+    private val apiService: OfflineFirstApiService,
+    private val conflictResolver: ConflictResolver
+) : ProductRepository {
+
+    override fun getProducts(forceRefresh: Boolean): Flow<Resource<List<Product>>> = flow {
+        emit(Resource.Loading())
+        
+        val localProducts = productDao.getAllProducts().first()
+        if (localProducts.isNotEmpty() && !forceRefresh) {
+            emit(Resource.Success(localProducts.map { it.toDomain() }))
+            return@flow
+        }
+        
+        try {
+            val response = apiService.getProducts()
+            if (response.isSuccessful && response.body() != null) {
+                val remoteProducts = response.body()!!.products
+                val localEntities = remoteProducts.map { it.toEntity() }
+                
+                productDao.insertProducts(localEntities)
+                emit(Resource.Success(localEntities.map { it.toDomain() }))
+            } else {
+                if (localProducts.isNotEmpty()) {
+                    emit(Resource.Success(localProducts.map { it.toDomain() }))
+                } else {
+                    emit(Resource.Error("Error al cargar productos: ${response.message()}"))
+                }
+            }
+        } catch (e: Exception) {
+            if (localProducts.isNotEmpty()) {
+                emit(Resource.Success(localProducts.map { it.toDomain() }))
+            } else {
+                emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
+            }
+        }
+    }
+
+    override fun getProductById(id: String): Flow<Resource<Product>> = flow {
+        emit(Resource.Loading())
+        
+        val localProduct = productDao.getProductById(id).first()
+        if (localProduct != null) {
+            emit(Resource.Success(localProduct.toDomain()))
+            return@flow
+        }
+        
+        try {
+            val response = apiService.getProductById(id)
+            if (response.isSuccessful && response.body() != null) {
+                val product = response.body()!!
+                productDao.insertProduct(product.toEntity())
+                emit(Resource.Success(product.toDomain()))
+            } else {
+                emit(Resource.Error("Producto no encontrado"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
+        }
+    }
+
+    override fun getProductsByCategory(category: ProductCategory): Flow<Resource<List<Product>>> = flow {
+        emit(Resource.Loading())
+        
+        val localProducts = productDao.getProductsByCategory(category.name).first()
+        if (localProducts.isNotEmpty()) {
+            emit(Resource.Success(localProducts.map { it.toDomain() }))
+        } else {
+            emit(Resource.Error("No hay productos en esta categoría"))
+        }
+    }
+
+    override suspend fun createProduct(product: Product): Resource<Product> {
+        return try {
+            val request = com.example.offlinefirst.data.remote.dto.CreateProductRequest(
+                name = product.name,
+                description = product.description,
+                price = product.price.toDouble(),
+                stock = product.stock,
+                category = product.category.name,
+                imageUrl = product.imageUrl
+            )
+            val response = apiService.createProduct(request)
+            if (response.isSuccessful && response.body() != null) {
+                val createdProduct = response.body()!!
+                productDao.insertProduct(createdProduct.toEntity())
+                Resource.Success(createdProduct.toDomain())
+            } else {
+                Resource.Error("Error al crear producto: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            val pendingEntity = product.toPendingEntity()
+            productDao.insertPendingProduct(pendingEntity)
+            Resource.Success(product)
+        }
+    }
+
+    override suspend fun updateProduct(product: Product): Resource<Product> {
+        return try {
+            val request = com.example.offlinefirst.data.remote.dto.UpdateProductRequest(
+                name = product.name,
+                description = product.description,
+                price = product.price.toDouble(),
+                stock = product.stock,
+                category = product.category.name,
+                imageUrl = product.imageUrl,
+                available = product.isAvailable
+            )
+            val response = apiService.updateProduct(product.id, request)
+            if (response.isSuccessful && response.body() != null) {
+                val updatedProduct = response.body()!!
+                productDao.insertProduct(updatedProduct.toEntity())
+                Resource.Success(updatedProduct.toDomain())
+            } else {
+                Resource.Error("Error al actualizar producto: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            val pendingEntity = product.toPendingEntity()
+            productDao.insertPendingProduct(pendingEntity)
+            Resource.Success(product)
+        }
+    }
+
+    override suspend fun deleteProduct(id: String): Resource<Unit> {
+        return try {
+            val response = apiService.deleteProduct(id)
+            if (response.isSuccessful) {
+                productDao.deleteProduct(id)
+                Resource.Success(Unit)
+            } else {
+                productDao.markProductForDeletion(id)
+                Resource.Success(Unit)
+            }
+        } catch (e: Exception) {
+            productDao.markProductForDeletion(id)
+            Resource.Success(Unit)
+        }
+    }
+
+    override fun searchProducts(query: String): Flow<Resource<List<Product>>> = flow {
+        emit(Resource.Loading())
+        
+        val results = productDao.searchProducts("%$query%").first()
+        emit(Resource.Success(results.map { it.toDomain() }))
+    }
+
+    override fun getPendingProducts(): Flow<List<Product>> {
+        return productDao.getPendingProducts().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
+    override suspend fun syncPendingProducts(): Resource<Int> {
+        val pendingProducts = productDao.getPendingProducts().first()
+        var syncedCount = 0
+        
+        for (product in pendingProducts) {
+            try {
+                val result = conflictResolver.resolveProductConflict(product.toDomain())
+                val request = com.example.offlinefirst.data.remote.dto.UpdateProductRequest(
+                    name = result.name,
+                    description = result.description,
+                    price = result.price.toDouble(),
+                    stock = result.stock,
+                    category = result.category.name,
+                    imageUrl = result.imageUrl,
+                    available = result.isAvailable
+                )
+                val response = apiService.updateProduct(result.id, request)
+                if (response.isSuccessful) {
+                    productDao.deletePendingProduct(product.id)
+                    syncedCount++
+                }
+            } catch (e: Exception) {
+                // Continuar con el siguiente producto
+            }
+        }
+        
+        return Resource.Success(syncedCount)
+    }
+
+    private fun ProductDto.toEntity(): ProductEntity {
+        return ProductEntity(
+            id = id,
+            name = name,
+            description = description,
+            price = BigDecimal(price.toString()),
+            stock = stock,
+            category = category,
+            imageUrl = imageUrl ?: "",
+            isAvailable = available,
+            rating = rating,
+            lastUpdated = System.currentTimeMillis(),
+            syncStatus = com.example.offlinefirst.domain.model.SyncStatus.SYNCED.name
+        )
+    }
+
+    private fun ProductEntity.toDomain(): Product {
+        return Product(
+            id = id,
+            name = name,
+            description = description,
+            price = price,
+            stock = stock,
+            category = try { ProductCategory.valueOf(category) } catch (e: Exception) { ProductCategory.OTHER },
+            imageUrl = imageUrl,
+            isAvailable = isAvailable,
+            rating = rating,
+            lastUpdated = lastUpdated
+        )
+    }
+
+    private fun Product.toPendingEntity(): ProductEntity {
+        return ProductEntity(
+            id = id,
+            name = name,
+            description = description,
+            price = price,
+            stock = stock,
+            category = category.name,
+            imageUrl = imageUrl,
+            isAvailable = isAvailable,
+            rating = rating,
+            lastUpdated = System.currentTimeMillis(),
+            syncStatus = com.example.offlinefirst.domain.model.SyncStatus.PENDING.name
+        )
+    }
+}

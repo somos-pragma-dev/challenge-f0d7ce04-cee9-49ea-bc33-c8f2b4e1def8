@@ -6,15 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.offlinefirst.data.local.dao.ContentDao
-import com.example.offlinefirst.data.local.dao.PreferencesDao
-import com.example.offlinefirst.data.local.dao.SyncOperationDao
-import com.example.offlinefirst.data.local.dao.UserDao
-import com.example.offlinefirst.data.local.entity.DownloadedContentEntity
-import com.example.offlinefirst.data.local.entity.PreferencesEntity
-import com.example.offlinefirst.data.local.entity.SyncOperationEntity
-import com.example.offlinefirst.data.local.entity.UserEntity
-import com.example.offlinefirst.util.Error
+import com.example.offlinefirst.data.local.dao.ProductDao
+import com.example.offlinefirst.data.local.dao.PurchaseHistoryDao
+import com.example.offlinefirst.data.local.dao.UserPreferencesDao
+import com.example.offlinefirst.data.local.entity.ProductEntity
+import com.example.offlinefirst.data.local.entity.PurchaseHistoryEntity
+import com.example.offlinefirst.data.local.entity.SyncMetadataEntity
+import com.example.offlinefirst.data.local.entity.UserPreferencesEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,10 +20,10 @@ import java.util.concurrent.Executors
 
 @Database(
     entities = [
-        UserEntity::class,
-        PreferencesEntity::class,
-        DownloadedContentEntity::class,
-        SyncOperationEntity::class
+        ProductEntity::class,
+        PurchaseHistoryEntity::class,
+        UserPreferencesEntity::class,
+        SyncMetadataEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -33,81 +31,90 @@ import java.util.concurrent.Executors
 @TypeConverters(Converters::class)
 abstract class OfflineFirstDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UserDao
-    abstract fun preferencesDao(): PreferencesDao
-    abstract fun contentDao(): ContentDao
-    abstract fun syncOperationDao(): SyncOperationDao
+    abstract fun productDao(): ProductDao
+    abstract fun purchaseHistoryDao(): PurchaseHistoryDao
+    abstract fun userPreferencesDao(): UserPreferencesDao
 
     companion object {
         private const val DATABASE_NAME = "offline_first_database"
-        private const val SCHEMA_FILE_NAME = "offline_first_schema"
+        private const val DATABASE_VERSION = 1
 
         @Volatile
         private var INSTANCE: OfflineFirstDatabase? = null
 
-        fun getInstance(context: Context): OfflineFirstDatabase {
+        fun getDatabase(context: Context): OfflineFirstDatabase {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    OfflineFirstDatabase::class.java,
+                    DATABASE_NAME
+                )
+                    .addCallback(DatabaseCallback())
+                    .addMigrations()
+                    .setJournalMode(JournalMode.TRUNCATE)
+                    .build()
+                INSTANCE = instance
+                instance
             }
         }
 
-        private fun buildDatabase(context: Context): OfflineFirstDatabase {
-            return Room.databaseBuilder(
-                context.applicationContext,
-                OfflineFirstDatabase::class.java,
-                DATABASE_NAME
-            )
-                .addCallback(DatabaseCallback())
-                .addMigrations()
-                .setJournalMode(JournalMode.TRUNCATE)
-                .setQueryCallback({ sql, bindArgs ->
-                    android.util.Log.d("DatabaseQuery", "SQL: $sql, Args: $bindArgs")
-                }, Executors.newSingleThreadExecutor())
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-
-        fun destroyInstance() {
-            INSTANCE?.close()
-            INSTANCE = null
-        }
+        fun getDatabaseInstance(): OfflineFirstDatabase? = INSTANCE
     }
 
     private class DatabaseCallback : Callback() {
+        private val databaseWriteExecutor = Executors.newFixedThreadPool(4)
+
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            android.util.Log.i("Database", "Creating database schema")
-            CoroutineScope(Dispatchers.IO).launch {
+            databaseWriteExecutor.execute {
                 INSTANCE?.let { database ->
-                    initializeDefaultData(database)
+                    populateInitialData(database)
                 }
             }
         }
 
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
-            android.util.Log.i("Database", "Database opened")
-            db.execSQL("PRAGMA foreign_keys = ON")
-            db.execSQL("PRAGMA journal_mode = TRUNCATE")
-            db.execSQL("PRAGMA synchronous = NORMAL")
-            db.execSQL("PRAGMA cache_size = 10000")
-            db.execSQL("PRAGMA temp_store = MEMORY")
+            databaseWriteExecutor.execute {
+                INSTANCE?.let { database ->
+                    performDatabaseMaintenance(database)
+                }
+            }
         }
 
-        override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
-            super.onDestructiveMigration(db)
-            android.util.Log.w("Database", "Destructive migration performed - all data lost")
+        private fun populateInitialData(database: OfflineFirstDatabase) {
+            try {
+                val defaultPreferences = UserPreferencesEntity(
+                    id = 1,
+                    themeMode = "SYSTEM",
+                    notificationsEnabled = true,
+                    autoSyncEnabled = true,
+                    syncOnWifiOnly = false,
+                    defaultPaymentMethod = "CREDIT_CARD",
+                    language = "es",
+                    lastSyncTimestamp = 0L,
+                    syncStatus = "PENDING",
+                    createdAt = System.currentTimeMillis(),
+                    updatedAt = System.currentTimeMillis()
+                )
+                database.userPreferencesDao().insertPreferences(defaultPreferences)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
-        private suspend fun initializeDefaultData(database: OfflineFirstDatabase) {
+        private fun performDatabaseMaintenance(database: OfflineFirstDatabase) {
             try {
                 val currentTime = System.currentTimeMillis()
-                android.util.Log.d("Database", "Initializing default data")
-            } catch (e: Error) {
-                android.util.Log.e("Database", "Error initializing default data", e)
+                val thirtyDaysAgo = currentTime - (30L * 24 * 60 * 60 * 1000)
             } catch (e: Exception) {
-                android.util.Log.e("Database", "Error initializing default data", e)
+                e.printStackTrace()
             }
         }
     }
+}
+
+class Converters {
+    // Los converters se delegan a las anotaciones en las entidades
+    // Room usa automaticamente los converters definidos a nivel de campo
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OfflineFirst</string>
+    <string name="app_description">Aplicación con soporte offline</string>
+    
+    <!-- Navigation -->
+    <string name="nav_products">Productos</string>
+    <string name="nav_purchases">Compras</string>
+    <string name="nav_settings">Ajustes</string>
+    
+    <!-- Products -->
+    <string name="products_title">Catálogo de Productos</string>
+    <string name="products_empty">No hay productos disponibles</string>
+    <string name="products_loading">Cargando productos…</string>
+    <string name="products_error">Error al cargar productos</string>
+    <string name="product_add_to_cart">Añadir al carrito</string>
+    <string name="product_out_of_stock">Sin stock</string>
+    <string name="product_in_stock">En stock: %d unidades</string>
+    <string name="product_price_format">$%s</string>
+    <string name="product_rating_format">%.1f ★</string>
+    <string name="product_category_format">Categoría: %s</string>
+    
+    <!-- Purchase History -->
+    <string name="purchases_title">Historial de Compras</string>
+    <string name="purchases_empty">No hay compras realizadas</string>
+    <string name="purchases_loading">Cargando historial…</string>
+    <string name="purchases_error">Error al cargar historial</string>
+    <string name="purchase_status_pending">Pendiente</string>
+    <string name="purchase_status_processing">Procesando</string>
+    <string name="purchase_status_shipped">Enviado</string>
+    <string name="purchase_status_delivered">Entregado</string>
+    <string name="purchase_status_cancelled">Cancelado</string>
+    <string name="purchase_cancel">Cancelar compra</string>
+    <string name="purchase_cancel_confirm">¿Estás seguro de que quieres cancelar esta compra?</string>
+    <string name="purchase_days_ago">Hace %d días</string>
+    <string name="purchase_total_format">Total: $%s</string>
+    <string name="purchase_tracking">Seguimiento: %s</string>
+    <string name="purchase_delivery_date">Entrega: %s</string>
+    
+    <!-- Payment Methods -->
+    <string name="payment_credit_card">Tarjeta de Crédito</string>
+    <string name="payment_debit_card">Tarjeta de Débito</string>
+    <string name="payment_paypal">PayPal</string>
+    <string name="payment_bank_transfer">Transferencia Bancaria</string>
+    <string name="payment_cash_on_delivery">Contra Reembolso</string>
+    <string name="payment_cryptocurrency">Criptomoneda</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_sync_section">Sincronización</string>
+    <string name="settings_auto_sync">Sincronización automática</string>
+    <string name="settings_auto_sync_summary">Sincronizar datos cuando haya conexión</string>
+    <string name="settings_sync_wifi_only">Solo WiFi</string>
+    <string name="settings_sync_wifi_only_summary">Evitar datos móviles</string>
+    <string name="settings_sync_now">Sincronizar ahora</string>
+    <string name="settings_sync_now_summary">Última sincronización: %s</string>
+    <string name="settings_clear_cache">Limpiar caché</string>
+    <string name="settings_clear_cache_summary">Eliminar datos locales no sincronizados</string>
+    <string name="settings_appearance_section">Apariencia</string>
+    <string name="settings_dark_mode">Modo oscuro</string>
+    <string name="settings_dark_mode_summary">Activar tema oscuro</string>
+    <string name="settings_notifications_section">Notificaciones</string>
+    <string name="settings_notifications_enabled">Notificaciones push</string>
+    <string name="settings_notifications_summary">Recibir alertas de sincronización</string>
+    <string name="settings_about_section">Acerca de</string>
+    <string name="settings_version">Versión %s</string>
+    <string name="settings_privacy_policy">Política de privacidad</string>
+    <string name="settings_terms_of_service">Términos de servicio</string>
+    
+    <!-- Sync -->
+    <string name="sync_status_synced">Sincronizado</string>
+    <string name="sync_status_pending">Pendiente de sincronizar</string>
+    <string name="sync_status_syncing">Sincronizando…</string>
+    <string name="sync_status_error">Error de sincronización</string>
+    <string name="sync_status_offline">Sin conexión</string>
+    <string name="sync_banner_pending">Tienes %d cambios pendientes</string>
+    <string name="sync_banner_error">Error al sincronizar. Toca para reintentar.</string>
+    <string name="sync_last_sync">Última sincronización: %s</string>
+    <string name="sync_never">Nunca</string>
+    
+    <!-- Common -->
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="retry">Reintentar</string>
+    <string name="retry_action">Reintentar acción</string>
+    <string name="loading">Cargando…</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+    <string name="error_network">Sin conexión a Internet</string>
+    <string name="error_server">Error del servidor</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="success">Operación exitosa</string>
+    <string name="confirm">Confirmar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="save">Guardar</string>
+    <string name="search">Buscar</string>
+    <string name="filter">Filtrar</string>
+    <string name="sort">Ordenar</string>
+    <string name="refresh">Actualizar</string>
+    <string name="no_data">No hay datos</string>
+    <string name="pull_to_refresh">Desliza para actualizar</string>
+    
+    <!-- Time -->
+    <string name="time_just_now">Ahora mismo</string>
+    <string name="time_minutes_ago">Hace %d minutos</string>
+    <string name="time_hours_ago">Hace %d horas</string>
+    <string name="time_yesterday">Ayer</string>
+    <string name="time_days_ago">Hace %d días</string>
+</resources>

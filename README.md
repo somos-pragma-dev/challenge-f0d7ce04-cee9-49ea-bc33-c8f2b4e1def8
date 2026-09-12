@@ -1,6 +1,6 @@
-# Implementación de persistencia local offline-first en Android
+# Implementación de persistencia local offline-first en una aplicación Android
 
-El equipo de desarrollo móvil necesita implementar una solución de persistencia local que opere en modo offline-first para asegurar que la aplicación Android pueda funcionar sin conexión y sincronizarse automáticamente cuando la conexión sea restablecida. La aplicación debe manejar la persistencia de datos de usuario, preferencias y contenido descargado. Los datos deben ser consistentes y estar disponibles sin importar el estado de la conexión. Los actores involucrados son el usuario final, el servicio de sincronización en la nube y el almacenamiento local del dispositivo. La aplicación debe soportar un throughput de 1 000 operaciones de lectura/escritura por segundo y una latencia máxima de 200 ms para operaciones locales. En caso de fallo de conexión, la aplicación debe queuear las operaciones y reintentar automáticamente la sincronización cada 5 minutos.
+La aplicación Android debe permitir a los usuarios acceder a sus datos sin conexión. Los datos se sincronizarán automáticamente cuando la conexión a Internet se restablezca. Los datos críticos incluyen la lista de productos, el historial de compras y las preferencias del usuario. La aplicación debe manejar adecuadamente los conflictos de datos que surjan durante la sincronización.
 
 ## Informacion General
 
@@ -38,86 +38,86 @@ El equipo de desarrollo móvil necesita implementar una solución de persistenci
 
 </details>
 
-### Fase 1: Definición de requisitos y diseño del modelo de datos
+### Fase 1: Diseño del modelo de datos
 
-**Objetivo:** Establecer los requisitos funcionales y no funcionales para la persistencia local y diseñar el modelo de datos.
+**Objetivo:** Definir la estructura de los datos que se persistirán localmente.
 
 **Tiempo estimado:** 3 días
 
 **Instrucciones:**
 
-- Identificar las entidades y relaciones que deben ser persistidas localmente.
-- Definir las reglas de validación y consistencia para los datos persistidos.
-- Establecer los umbrales de rendimiento y latencia para las operaciones de persistencia.
+- Identificar los datos críticos que deben estar disponibles sin conexión.
+- Definir el esquema de la base de datos local.
+- Establecer las relaciones entre las entidades.
 
-**Entregable:** Documento de diseño que describe el modelo de datos, las reglas de validación y los requisitos de rendimiento.
+**Entregable:** Esquema de la base de datos local con relaciones definidas.
 
 <details>
 <summary>Pistas de conocimiento</summary>
 
-- Considerar el uso de patrones de diseño para la gestión de datos locales.
-- Evaluar la necesidad de mecanismos de versionado para los datos persistidos.
+- Considera la normalización y la desnormalización de datos.
+- Piensa en cómo manejarás las relaciones uno a muchos y muchos a muchos.
 
 </details>
 
-### Fase 2: Implementación de la capa de persistencia
+### Fase 2: Implementación de la persistencia local
 
-**Objetivo:** Implementar la capa de persistencia local utilizando el modelo de datos diseñado.
+**Objetivo:** Implementar la persistencia local de los datos identificados en la fase anterior.
 
 **Tiempo estimado:** 5 días
 
 **Instrucciones:**
 
-- Implementar las operaciones CRUD para las entidades persistidas.
-- Asegurar que las operaciones sean idempotentes y consistentes.
-- Implementar mecanismos de queueing y reintento para operaciones en modo offline.
+- Crear las clases de modelo para los datos.
+- Implementar las operaciones CRUD para los datos locales.
+- Asegurar la consistencia de los datos al realizar operaciones.
 
-**Entregable:** Capa de persistencia local implementada y verificada.
+**Entregable:** Código fuente que implementa la persistencia local de los datos.
 
 <details>
 <summary>Pistas de conocimiento</summary>
 
-- Utilizar librerías de persistencia local adecuadas para Android.
-- Implementar estrategias de queueing y reintento eficientes.
+- Utiliza un ORM para simplificar las operaciones de base de datos.
+- Considera el uso de transacciones para garantizar la consistencia de los datos.
 
 </details>
 
-### Fase 3: Integración y sincronización con servicio en la nube
+### Fase 3: Sincronización de datos
 
-**Objetivo:** Integrar la persistencia local con el servicio de sincronización en la nube y asegurar la sincronización automática de datos.
+**Objetivo:** Implementar la sincronización automática de datos cuando la conexión a Internet se restablezca.
 
 **Tiempo estimado:** 4 días
 
 **Instrucciones:**
 
-- Implementar la lógica de sincronización entre la persistencia local y el servicio en la nube.
-- Asegurar que los datos se sincronizan automáticamente cuando la conexión sea restablecida.
-- Manejar conflictos de sincronización y asegurar la consistencia de los datos.
+- Detectar cambios en la conectividad de red.
+- Sincronizar los datos locales con el servidor.
+- Manejar conflictos de datos durante la sincronización.
 
-**Entregable:** Solución de persistencia local integrada con el servicio de sincronización en la nube y sincronización automática de datos implementada.
+**Entregable:** Código fuente que implementa la sincronización automática de datos.
 
 <details>
 <summary>Pistas de conocimiento</summary>
 
-- Utilizar estrategias de sincronización incremental para minimizar el consumo de datos.
-- Implementar mecanismos de resolución de conflictos de sincronización.
+- Utiliza un servicio de trabajo para detectar cambios en la conectividad de red.
+- Considera el uso de un algoritmo de resolución de conflictos para manejar conflictos de datos.
 
 </details>
 
 ## Dimensiones Evaluadas
 
 - **queEs**: ¿Qué es la persistencia local offline-first y por qué es importante para una aplicación Android?
-- **paraQueSirve**: ¿Para qué sirve la integración de la persistencia local con el servicio de sincronización en la nube?
-- **comoSeUsa**: ¿Cómo se utiliza la persistencia local para asegurar la disponibilidad de datos sin conexión?
-- **erroresComunes**: ¿Cuáles son los errores comunes al implementar una solución de persistencia local offline-first?
-- **queDecisionesImplica**: ¿Qué decisiones implica la elección de estrategias de sincronización y resolución de conflictos?
+- **paraQueSirve**: ¿Para qué sirve el modelo de datos en una aplicación Android con persistencia local?
+- **comoSeUsa**: ¿Cómo se usa un ORM para simplificar las operaciones de base de datos en una aplicación Android?
+- **erroresComunes**: ¿Cuáles son los errores comunes al implementar la persistencia local en una aplicación Android?
+- **queDecisionesImplica**: ¿Qué decisiones implica la sincronización de datos en una aplicación Android con persistencia local?
 
 ## Criterios de Evaluacion
 
-- Definición clara de requisitos y diseño del modelo de datos.
-- Implementación correcta de la capa de persistencia local.
-- Integración efectiva con el servicio de sincronización en la nube.
-- Manejo adecuado de conflictos de sincronización y aseguramiento de la consistencia de datos.
+- Diseño del modelo de datos que permite la persistencia local offline-first.
+- Implementación de las operaciones CRUD para los datos locales.
+- Implementación de la sincronización automática de datos cuando la conexión a Internet se restablezca.
+- Manejo adecuado de los conflictos de datos durante la sincronización.
 
 ## Como trabajar con un asistente de IA
 
